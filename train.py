@@ -1,9 +1,12 @@
 import time
 import os
+from flask import Flask, request, jsonify
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 from datasets import Dataset
+
+app = Flask(__name__)
 
 class ChangeHandler(FileSystemEventHandler):
     def on_modified(self, event):
@@ -43,6 +46,13 @@ def retrain_model():
     trainer.train()
     print("Model retrained successfully.")
 
+@app.route('/chat', methods=['POST'])
+def chat():
+    user_input = request.json.get('message')
+    # Generate AI response (this is a placeholder; replace with actual model inference)
+    response = f"Response to: {user_input}"
+    return jsonify({"response": response})
+
 def main():
     path = "."
     event_handler = ChangeHandler()
@@ -52,8 +62,7 @@ def main():
 
     try:
         print("Monitoring data.txt for changes...")
-        while True:
-            time.sleep(1)
+        app.run(port=5000)  # Start Flask server
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
