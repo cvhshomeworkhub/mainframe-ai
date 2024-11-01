@@ -151,7 +151,7 @@
                     addMessage('You', userInput);
                     // Send request to the Flask server
                     $.ajax({
-                        url: 'http://localhost:5000/chat',
+                        url: 'http://localhost:5000/chat', // Use your actual endpoint
                         method: 'POST',
                         contentType: 'application/json',
                         data: JSON.stringify({ message: userInput }),
