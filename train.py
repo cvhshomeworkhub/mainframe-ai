@@ -62,7 +62,7 @@ def main():
 
     try:
         print("Monitoring data.txt for changes...")
-        app.run(port=5000)  # Start Flask server
+        app.run(host='0.0.0.0', port=5000)  # Allow access from any IP
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
