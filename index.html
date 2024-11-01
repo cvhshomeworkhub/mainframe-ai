@@ -149,11 +149,20 @@
             function sendMessage(userInput) {
                 if (userInput) {
                     addMessage('You', userInput);
+                    // Send request to the Flask server
+                    $.ajax({
+                        url: 'http://localhost:5000/chat',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ message: userInput }),
+                        success: function(data) {
+                            addMessage('Mainframe AI', data.response);
+                        },
+                        error: function() {
+                            addMessage('Mainframe AI', 'Error: Unable to get response.');
+                        }
+                    });
                 }
-                // Simulate AI response (replace this with actual API call)
-                setTimeout(() => {
-                    addMessage('Mainframe AI', `Response to: ${userInput}`);
-                }, 1000);
             }
 
             $('#send-button').click(function() {
